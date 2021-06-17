@@ -1,11 +1,16 @@
-import Header from "./component/header"
+import { Header, AddTaskForm, ToDoList } from "./component/header"
 import './App.css';
+import Container from '@material-ui/core/Container';
 
 function App() {
   return (
-    <div className="App">
-    <Header/>
-    </div>
+    <Container maxWidth="sm">
+      <div className="App">
+        <Header/>
+        <AddTaskForm/>
+        <ToDoList id="to-do-list"/>
+      </div>
+    </Container>
   );
 }
 

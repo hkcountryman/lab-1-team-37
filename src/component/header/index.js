@@ -1,3 +1,3 @@
-import Header from "./header"
+import { Header, AddTaskForm, ToDoList } from "./header"
 
-export default Header 
+export { Header, AddTaskForm, ToDoList }
