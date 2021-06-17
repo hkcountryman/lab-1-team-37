@@ -1,3 +1,3 @@
-import { Header, AddTaskForm, ToDoList } from "./header"
+import { Header, ToDoList } from "./header"
 
-export { Header, AddTaskForm, ToDoList }
+export { Header, ToDoList }

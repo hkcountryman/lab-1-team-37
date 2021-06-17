@@ -7,7 +7,7 @@ function App() {
     <Container maxWidth="sm">
       <div className="App">
         <Header/>
-        <AddTaskForm/>
+        
         <ToDoList id="to-do-list"/>
       </div>
     </Container>
