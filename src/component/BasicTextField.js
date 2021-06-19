@@ -80,6 +80,7 @@ export default function BasicTextFields() {
       <Grid container spacing={5}>
         <Grid item>
           <TextField
+            data-testid="new-item-input"
             id="standard-basic"
             label="I need to..."
             color="secondary"
@@ -97,12 +98,16 @@ export default function BasicTextFields() {
         </Grid>
         <Grid item>
           <div className={classes.fabRoot}>
-            <Fab color="primary" aria-label="add" variant="extended">
-              <AddIcon
-                onClick={() => {
-                  alert("Ability to add entry is not yet functional");
-                }}
-              />
+            <Fab
+              data-testid="new-item-button"
+              color="primary"
+              aria-label="add"
+              variant="extended">
+                <AddIcon
+                  onClick={() => {
+                    alert("Ability to add entry is not yet functional");
+                  }}
+                />
             </Fab>
           </div>
         </Grid>
