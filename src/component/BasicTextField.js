@@ -24,19 +24,21 @@ const useStyles = makeStyles((theme) => ({
   extendedIcon: {
     marginRight: theme.spacing(1),
   },
-  fabRoot: {},
+  fabRoot: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   catSelect: {
     margin: theme.spacing(1),
     minWidth: 150,
   },
-  selectLabel: {
-  }
 }));
 
 function CategorySelect() {
   const classes = useStyles();
 
-  // category is "chores", "other", "school", "self-care", "social", or "work"
+  // category is "chores", "school", "self-care", "social", "work", or "other"
   const [category, setCategory] = React.useState("");
 
   const handleCategoryChange = (event) => {
@@ -44,11 +46,10 @@ function CategorySelect() {
   }
 
   return (
-    <FormControl className={classes.catSelect}>
-      <InputLabel>Category</InputLabel>
+    <FormControl variant="outlined" className={classes.catSelect}>
+      <InputLabel id="category-selection-label">Category</InputLabel>
       <Select
-        className={classes.selectLabel}
-        variant="outlined"
+        labelId="category-selection-label"
         id="category-selection"
         value={category}
         onChange={handleCategoryChange}
@@ -96,8 +97,8 @@ export default function BasicTextFields() {
         <Grid item>
           <CategorySelect/>
         </Grid>
-        <Grid item>
-          <div className={classes.fabRoot}>
+        <Grid item className={classes.fabRoot}>
+          <div>
             <Fab
               data-testid="new-item-button"
               color="primary"
