@@ -25,42 +25,44 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "@material-ui/core/Avatar";
-import Icon from '@material-ui/core/Icon';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Icon from "@material-ui/core/Icon";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 import BasicTextField from "./BasicTextField";
 import { Chip } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
-import DoneIcon from '@material-ui/icons/Done';
-import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import GroupIcon from '@material-ui/icons/Group';
-import SchoolIcon from '@material-ui/icons/School';
-import WorkIcon from '@material-ui/icons/Work';
+import DoneIcon from "@material-ui/icons/Done";
+import EmojiEmotionsIcon from "@material-ui/icons/EmojiEmotions";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import GroupIcon from "@material-ui/icons/Group";
+import SchoolIcon from "@material-ui/icons/School";
+import WorkIcon from "@material-ui/icons/Work";
+import { getByDisplayValue } from "@testing-library/react";
 
 const categoryColors = {
-  chores: '#540d6e',
-  other: '#5967ff',
-  school: '#3bceac',
-  'self-care': '#ee4266',
-  social: '#ffd23f',
-  work: '#403d39'
-}
+  chores: "#540d6e",
+  other: "#5967ff",
+  school: "#3bceac",
+  "self-care": "#ee4266",
+  social: "#ffd23f",
+  work: "#403d39",
+};
 
 function getCategoryIcon(value) {
   if (value.category === "chores") {
-    return <DoneIcon style={{ color: categoryColors['chores'] }} />
+    return <DoneIcon style={{ color: categoryColors["chores"] }} />;
   } else if (value.category === "school") {
-    return <SchoolIcon style={{ color: categoryColors['school'] }} />
+    return <SchoolIcon style={{ color: categoryColors["school"] }} />;
   } else if (value.category === "self-care") {
-    return <FavoriteIcon style={{ color: categoryColors['self-care'] }} />
+    return <FavoriteIcon style={{ color: categoryColors["self-care"] }} />;
   } else if (value.category === "social") {
-    return <GroupIcon style={{ color: categoryColors['social'] }} />
+    return <GroupIcon style={{ color: categoryColors["social"] }} />;
   } else if (value.category === "work") {
-    return <WorkIcon style={{ color: categoryColors['work'] }} />
-  } else { // other
-    return <EmojiEmotionsIcon style={{ color: categoryColors['other'] }} />
+    return <WorkIcon style={{ color: categoryColors["work"] }} />;
+  } else {
+    // other
+    return <EmojiEmotionsIcon style={{ color: categoryColors["other"] }} />;
   }
 }
 
@@ -71,11 +73,11 @@ class Task {
    * Creates a Task object given the name of the task (any string) and the name
    * of its category (strings from a predetermined set: "work", "school","chores",
    * "self-care", "social", and "other").
-   * 
+   *
    * @param {string} title the name of the task that appears in the list
    * @param {string} category the name of the task category
    */
- constructor(title="Do homework", category) {
+  constructor(title = "Do homework", category) {
     this.title = title;
     this.category = category;
     this.id = curId;
@@ -152,7 +154,7 @@ function a11yProps(index) {
   };
 }
 
-export default function FloatingActionButtonZoom(props) {
+export default function MainBox(props) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -198,10 +200,45 @@ export default function FloatingActionButtonZoom(props) {
     },
   ];
 
+  const formatDate = (date) => {
+    let period = "AM";
+    let hour = date.getHours();
+    if (hour == 12) {
+      period = "PM";
+    } else if (hour > 12) {
+      hour = hour - 12;
+      period = "PM";
+    }
+
+    let minute = date.getMinutes();
+    if (minute < 10) {
+      minute = "0" + minute;
+    }
+
+    return (
+      date.getMonth() +
+      "/" +
+      date.getDay() +
+      "/" +
+      date.getYear().toString().substring(1) +
+      " " +
+      hour +
+      ":" +
+      minute +
+      " " +
+      period
+    );
+  };
+
   const CheckboxListSecondary = () => {
     return (
-      <Paper style={{ width: "100%", maxHeight: "25rem", overflow: "auto" }}>
-        <List dense className={classes.root}>
+      <Paper>
+        <List
+          MenuProps={{ autoFocus: false }}
+          dense
+          className={classes.root}
+          style={{ width: "100%", maxHeight: "20rem", overflowY: "auto" }}
+        >
           {allEntries.map((value) => {
             const labelId = `checkbox-list-secondary-label-${value.id}`;
 
@@ -235,15 +272,13 @@ export default function FloatingActionButtonZoom(props) {
                 {/* Displays an avatar. Maybe we can replace this with an icon later,
                 depending on what they categorize the task as? */}
                 <ListItemIcon>
-                  <Icon>
-                    {getCategoryIcon(value)}
-                  </Icon>
+                  <Icon>{getCategoryIcon(value)}</Icon>
                 </ListItemIcon>
 
                 {/* This would be a great place to display the date and time of list entry creation. 
                 It may be referenced `value.creationTime` after implementation. */}
                 <Chip
-                  label="6/17/21 1:29 AM"
+                  label={formatDate(value.date)}
                   color="secondary"
                   style={{ marginRight: "1rem", width: "auto" }}
                 />
@@ -361,7 +396,10 @@ export default function FloatingActionButtonZoom(props) {
                 marginLeft: "0rem",
               }}
             >
-              <BasicTextField />
+              <BasicTextField
+                listOfEntries={props.listOfEntries}
+                remotelyHandleAdd={props.remotelyHandleAdd}
+              />
             </Paper>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>

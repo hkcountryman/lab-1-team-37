@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import TabPanel from "./TabPanel";
+import MainBox from "./MainBox";
 import StatusBar from "./StatusBar";
 import { version } from "react-dom";
 
@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     backgroundColor: "#264653",
     borderRadius: "0rem",
+    overflow: "hidden",
   },
   greeting: {
     paddingBottom: "1rem",
@@ -40,7 +41,8 @@ class Task {
     this.id = curId;
     curId = curId + 1;
     this.done = isDone;
-    // optional: this.date = new Date() if anyone wants encapsulation of the date
+    let newDate = new Date();
+    this.date = newDate;
   }
 }
 
@@ -68,6 +70,22 @@ export default function MainGrid() {
     new Task("Review for exam", "school", false),
   ]);
 
+  const handleAdd = (obj) => {
+    console.log("I got it!");
+    var newState = [];
+
+    // Copy old entries over
+    allEntries.map((_value) => {
+      newState.push(_value);
+    });
+
+    // Push new entry obj
+    newState.push(new Task(obj.title, obj.category, false));
+
+    // Update state
+    setAllEntries(newState);
+  };
+
   const handleToggle = (value) => () => {
     var newState = [];
     allEntries.map((_value) => {
@@ -89,9 +107,10 @@ export default function MainGrid() {
           <Paper className={classes.paper}>
             {/* This component is what actually houses the to-do list
             and manages the state of the list. */}
-            <TabPanel
+            <MainBox
               remotelyHandleToggle={handleToggle}
               listOfEntries={allEntries}
+              remotelyHandleAdd={handleAdd}
             />
             {/* Notice the props we passed to the `TabPanel` component.
             We'll have to do something similar to `remotelyHandleToggle` for all other list functions! */}
