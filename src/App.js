@@ -9,9 +9,6 @@ function App() {
       {/* This is the horizontal bar on top with the text */}
       <TopBar />
 
-      {/* The header is currently empty */}
-      <Header />
-
       {/* This houses everything else on the screen:
       MainBox, StatusBar, BasicTextField */}
       <MainGrid />

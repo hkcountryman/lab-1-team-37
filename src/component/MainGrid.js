@@ -4,24 +4,21 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import MainBox from "./MainBox";
 import StatusBar from "./StatusBar";
+import Container from "@material-ui/core/Container";
 
 // STYLING
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    width: "114rem",
-    height: "50rem",
     marginTop: "2rem",
     margin: "auto",
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
-    height: "50rem",
     color: theme.palette.text.secondary,
     backgroundColor: "#264653",
     borderRadius: "0rem",
-    overflow: "hidden",
   },
   greeting: {
     paddingBottom: "1rem",
@@ -125,31 +122,34 @@ export default function MainGrid() {
   };
 
   return (
-    <div className={classes.root}>
-      <Grid container spacing={3}>
-        {/* This one's the big box that will contain our to-do list! */}
-        <Grid item xs>
-          <Paper className={classes.paper}>
-            {/* This component is what actually renders each to-do list item 
-            Many functions are passed as props - perhaps there may be a better way to do this? */}
-            <MainBox
-              listOfEntries={allEntries}
-              remotelyHandleEdit={handleEdit}
-              remotelyHandleToggle={handleToggle}
-              remotelyHandleAdd={handleAdd}
-              remotelyHandleDelete={handleDelete}
-              addedNewEntry={lastAction === "add" ? true : false}
-            />
-          </Paper>
+    <>
+      <br />
+      <Container maxWidth="lg">
+        <Grid container spacing={3}>
+          {/* This one's the big box that will contain our to-do list! */}
+          <Grid item xs={9}>
+            <Paper className={classes.paper}>
+              {/* This component is what actually renders each to-do list item 
+              Many functions are passed as props - perhaps there may be a better way to do this? */}
+              <MainBox
+                listOfEntries={allEntries}
+                remotelyHandleEdit={handleEdit}
+                remotelyHandleToggle={handleToggle}
+                remotelyHandleAdd={handleAdd}
+                remotelyHandleDelete={handleDelete}
+                addedNewEntry={lastAction === "add" ? true : false}
+              />
+            </Paper>
+          </Grid>
+          {/* Smaller box on the right, set aside for additional features */}
+          <Grid item xs={3}>
+            <Paper className={classes.paper}>
+              <StatusBar listOfEntries={allEntries} />
+              {/* We need the list of entries inside StatusBar too, so we're passing it as props */}
+            </Paper>
+          </Grid>
         </Grid>
-        {/* Smaller box on the right, set aside for additional features */}
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>
-            <StatusBar listOfEntries={allEntries} />
-            {/* We need the list of entries inside StatusBar too, so we're passing it as props */}
-          </Paper>
-        </Grid>
-      </Grid>
-    </div>
+      </Container>
+    </>
   );
 }
