@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import { FormControl, InputLabel, MenuItem } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { Button } from "@material-ui/core";
-import { Toolbar } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 import AddIcon from "@material-ui/icons/Add";
 import { SnackbarProvider, useSnackbar } from "notistack";
 
@@ -15,8 +15,9 @@ const useStyles = makeStyles((theme) => ({
   },
   fabRoot: {},
   catSelect: {
-    margin: theme.spacing(1),
-    minWidth: 150,
+    minWidth: 100,
+    display: "flex",
+    margin: "1rem"
   },
   selectLabel: {},
 }));
@@ -46,7 +47,6 @@ function ActualFields(props) {
         <InputLabel>Category</InputLabel>
         <Select
           className={classes.selectLabel}
-          style={{ width: "20rem" }}
           id="category-selection"
           value={category.toLowerCase()}
           onChange={handleCategoryChange}
@@ -64,71 +64,77 @@ function ActualFields(props) {
 
   return (
     <form noValidate autoComplete="off">
-      <Toolbar style={{ alignContent: "center" }}>
-        <TextField
-          data-testid="new-item-input"
-          value={currentInput}
-          onChange={(e) => {
-            setCurrentInput(e.target.value);
-          }}
-          id="standard-basic"
-          label="Task Name"
-          color="secondary"
-          style={{ width: "45rem" }}
-        />
-        <CategorySelect />
-        <Button
-          data-testid="new-item-button"
-          color="primary"
-          aria-label="add"
-          variant="contained"
-          style={{ width: "10rem" }}
-          startIcon={<AddIcon />}
-          onClick={() => {
-            setCurrentInput("");
-            let isADuplicate = false;
-            if (currentInput === "") {
-              handleClickVariant(
-                "Input may not be empty. Please name your task.",
-                "error"
-              );
-              return;
-            }
-            props.listOfEntries.map((obj) => {
-              if (obj.title.toLowerCase() === currentInput.toLowerCase()) {
-                isADuplicate = true;
-                handleClickVariant("Duplicate items are not allowed.", "error");
+      <Grid container>
+        <Grid item xs={6}>
+          <TextField
+            data-testid="new-item-input"
+            value={currentInput}
+            onChange={(e) => {
+              setCurrentInput(e.target.value);
+            }}
+            id="standard-basic"
+            label="Task Name"
+            color="secondary"
+            style={{ display: "flex", margin: "1rem" }}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <CategorySelect />
+        </Grid>
+        <Grid item xs={2}>
+          <Button
+            data-testid="new-item-button"
+            color="primary"
+            aria-label="add"
+            variant="contained"
+            style={{ display: "flex", margin: "2rem" }}
+            startIcon={<AddIcon />}
+            onClick={() => {
+              setCurrentInput("");
+              let isADuplicate = false;
+              if (currentInput === "") {
+                handleClickVariant(
+                  "Input may not be empty. Please name your task.",
+                  "error"
+                );
+                return;
               }
-              return {};
-            });
-
-            if (isADuplicate === false) {
-              if (category !== undefined && category !== "") {
-                handleClickVariant(
-                  "'" + currentInput + "' was successfully added to your list!",
-                  "success"
-                );
-              } else {
-                handleClickVariant(
-                  "'" + currentInput + "' was successfully added to your list!",
-                  "success"
-                );
-                handleClickVariant(
-                  "We suggest adding a category next time so we can provide you with greater insight.",
-                  "info"
-                );
-              }
-
-              props.remotelyHandleAdd({
-                title: currentInput,
-                category: category,
+              props.listOfEntries.map((obj) => {
+                if (obj.title.toLowerCase() === currentInput.toLowerCase()) {
+                  isADuplicate = true;
+                  handleClickVariant("Duplicate items are not allowed.", "error");
+                }
+                return {};
               });
-            }
-          }}
-        >
-          ADD
-        </Button>
-      </Toolbar>
+
+              if (isADuplicate === false) {
+                if (category !== undefined && category !== "") {
+                  handleClickVariant(
+                    "'" + currentInput + "' was successfully added to your list!",
+                    "success"
+                  );
+                } else {
+                  handleClickVariant(
+                    "'" + currentInput + "' was successfully added to your list!",
+                    "success"
+                  );
+                  handleClickVariant(
+                    "We suggest adding a category next time so we can provide you with greater insight.",
+                    "info"
+                  );
+                }
+
+                props.remotelyHandleAdd({
+                  title: currentInput,
+                  category: category,
+                });
+              }
+            }}
+          >
+            ADD
+          </Button>
+        </Grid>
+      </Grid>
     </form>
   );
 }

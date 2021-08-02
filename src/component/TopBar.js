@@ -22,9 +22,6 @@ const customTheme = createMuiTheme({
 
 // STYLING
 const useStyles = makeStyles((theme) => ({
-  grow: {
-    width: "120rem",
-  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -43,7 +40,7 @@ export default function TopBar() {
   // RETURN
   return (
     <ThemeProvider theme={customTheme}>
-      <div className={classes.grow}>
+      <div>
         <AppBar position="static" color="primary">
           <Toolbar>
             {/* Smiley face icon */}
