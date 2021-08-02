@@ -134,26 +134,6 @@ export default function StatusBar(props) {
     if (entry.done === true && entry.category === "chores") ChoresDone++;
   });
 
-  var WorkProgress = 0;
-  var SchoolProgress = 0;
-  var SelfCareProgress = 0;
-  var OtherProgress = 0;
-  var SocialProgress = 0;
-  var ChoresProgress = 0;
-
-  if (WorkTotal !== 0) WorkProgress = (WorkDone / WorkTotal) * 100;
-
-  if (SchoolTotal !== 0) SchoolProgress = (SchoolDone / SchoolTotal) * 100;
-
-  if (SelfCareTotal !== 0)
-    SelfCareProgress = (SelfCareDone / SelfCareTotal) * 100;
-
-  if (OtherTotal !== 0) OtherProgress = (OtherDone / OtherTotal) * 100;
-
-  if (SocialTotal !== 0) SocialProgress = (SocialDone / SocialTotal) * 100;
-
-  if (ChoresTotal !== 0) ChoresProgress = (ChoresDone / ChoresTotal) * 100;
-
   const getDistributionPercentage = (base) => {
     if (AllTotal === 0) return 0;
     let percentage = (base / AllTotal) * 100;
@@ -228,7 +208,7 @@ export default function StatusBar(props) {
             Work
           </CategoryLabel>
           <StyledLinearProgressBars.Work
-            value={WorkProgress}
+            value={getDistributionPercentage(WorkTotal)}
             variant={"buffer"}
             valueBuffer={0}
           />
@@ -245,7 +225,7 @@ export default function StatusBar(props) {
             School
           </CategoryLabel>
           <StyledLinearProgressBars.School
-            value={SchoolProgress}
+            value={getDistributionPercentage(SchoolTotal)}
             variant={"buffer"}
             valueBuffer={0}
           />
@@ -265,7 +245,7 @@ export default function StatusBar(props) {
             Self Care
           </CategoryLabel>
           <StyledLinearProgressBars.Selfcare
-            value={SelfCareProgress}
+            value={getDistributionPercentage(SelfCareTotal)}
             variant={"buffer"}
             valueBuffer={0}
           />
@@ -277,7 +257,7 @@ export default function StatusBar(props) {
             Social
           </CategoryLabel>
           <StyledLinearProgressBars.Social
-            value={SocialProgress}
+            value={getDistributionPercentage(SocialTotal)}
             variant={"buffer"}
             valueBuffer={0}
           />
@@ -289,7 +269,7 @@ export default function StatusBar(props) {
             Chores
           </CategoryLabel>
           <StyledLinearProgressBars.Chores
-            value={ChoresProgress}
+            value={getDistributionPercentage(ChoresTotal)}
             variant={"buffer"}
             valueBuffer={0}
           />
@@ -301,7 +281,7 @@ export default function StatusBar(props) {
             Other
           </CategoryLabel>
           <StyledLinearProgressBars.Other
-            value={OtherProgress}
+            value={getDistributionPercentage(OtherTotal)}
             variant={"buffer"}
             valueBuffer={0}
           />
